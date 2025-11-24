@@ -13,6 +13,8 @@ import { GlobalExceptionsFilter } from './common/filter/globalException.filter';
 import { HttpExceptionFilter } from './common/filter/httpException.filter';
 import { GlobalResponseInterceptor } from './common/interceptor/globalResponse.interceptor';
 import { RequestLoggerInterceptor } from './common/interceptor/requestLogger.interceptor';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
@@ -73,6 +75,9 @@ import { RequestLoggerInterceptor } from './common/interceptor/requestLogger.int
         synchronize: configService.get('DB_SYNC'),
         logging: process.env.NODE_ENV === 'development',
       }),
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
     }),
   ],
   controllers: [AppController],
